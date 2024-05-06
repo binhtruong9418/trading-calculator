@@ -1,6 +1,6 @@
 import {Col, Form, Row, Typography, Radio, InputNumber, Button, Table} from "antd";
 import {toast, Toaster} from "react-hot-toast";
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 interface ListAmountUsdt {
     risk: number
@@ -11,6 +11,10 @@ interface ListAmountUsdt {
 function App() {
     const [form] = Form.useForm()
     const [listAmountUsdt, setListAmountUsdt] = useState<ListAmountUsdt[]>([])
+    const totalRef = useRef<any>(null)
+    const entryRef = useRef<any>(null)
+    const stopRef = useRef<any>(null)
+    const submitRef = useRef<any>(null)
 
     const handleSubmit = (values: any) => {
         const {total, fee, setup, stop, type: stopType, listEntry} = values
@@ -95,6 +99,12 @@ function App() {
                                 min={0}
                                 step={100}
                                 max={1000000}
+                                ref={totalRef}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        entryRef.current.focus()
+                                    }
+                                }}
                             />
                         </Form.Item>
                     </Col>
@@ -147,6 +157,14 @@ function App() {
                                                     rules={[{required: true, message: 'Please enter the entry price'}]}
                                                 >
                                                     <InputNumber
+                                                        ref={index === fields.length - 1 ? entryRef : null}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === 'Enter') {
+                                                                if (index === fields.length - 1) {
+                                                                    stopRef.current.focus()
+                                                                }
+                                                            }
+                                                        }}
                                                         className={'w-full border-black'}
                                                     />
                                                 </Form.Item>
@@ -194,6 +212,12 @@ function App() {
                             label={<div className={'font-bold text-lg'}>Stop</div>}
                         >
                             <InputNumber
+                                ref={stopRef}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        submitRef.current.focus()
+                                    }
+                                }}
                                 className={'w-full border-black'}
                             />
                         </Form.Item>
@@ -232,8 +256,10 @@ function App() {
                 }
                 <Button
                     type={"primary"}
-                    htmlType={"submit"}
                     className={'w-full'}
+                    htmlType={"button"}
+                    ref={submitRef}
+                    onClick={() => form.submit()}
                 >
                     Calculate
                 </Button>
