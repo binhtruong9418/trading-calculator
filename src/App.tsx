@@ -31,7 +31,7 @@ function App() {
             }
             const data = listEntry.map((entry: any) => {
                 const {risk, entry: entryPrice} = entry
-                const totalStopAmountPercent = stopType === "price" ? entryPrice / stop - 1 : stop / 100
+                const totalStopAmountPercent = stopType === "price" ? (entryPrice - stop) / entryPrice : stop / 100
                 const totalFeeAmountPercent = Number(fee) + 0.0005
                 console.log(totalStopAmountPercent, totalFeeAmountPercent)
                 const amountUsdt = (total * risk / 100) / (totalFeeAmountPercent + totalStopAmountPercent)
@@ -48,7 +48,7 @@ function App() {
             }
             const data = listEntry.map((entry: any) => {
                 const {risk, entry: entryPrice} = entry
-                const totalStopAmountPercent = stopType === "price" ? stop / entryPrice - 1 : stop / 100
+                const totalStopAmountPercent = stopType === "price" ? (stop - entryPrice) / entryPrice : stop / 100
                 const totalFeeAmountPercent = Number(fee) + 0.0005
                 console.log(totalStopAmountPercent, totalFeeAmountPercent)
                 const amountUsdt = (total * risk / 100) / (totalFeeAmountPercent + totalStopAmountPercent)
