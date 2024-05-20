@@ -92,7 +92,7 @@ function App() {
                             name={"total"}
                             label={<div className={'font-bold text-lg'}>Total (total amount of account)</div>}
                             rules={[{required: true, message: 'Please enter the total amount of your account'}]}
-                            initialValue={300}
+                            initialValue={200}
                         >
                             <InputNumber
                                 className={'w-full border-black'}
